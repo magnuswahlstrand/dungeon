@@ -1,7 +1,6 @@
 package game
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/inpututil"
@@ -43,8 +42,6 @@ func (g *Game) preStep() {
 	if rubberband {
 
 		band := hook.Sub(g.Pos(hookID).Vec)
-		fmt.Println(hook)
-		fmt.Println(g.Pos(hookID).Vec)
 		dist := band.Len()
 		pw := (dist - 20) / 20
 		if pw < 0 {

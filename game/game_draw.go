@@ -18,18 +18,10 @@ func (g *Game) draw(screen *ebiten.Image) {
 	// draw.Shadow(tmpImg, player, g.pts, g.staticSpace)
 
 	// Draw hitboxes
-	for _, e := range g.filteredEntities(components.HitboxType) {
-		hb := g.entities.GetUnsafe(e, components.HitboxType).(*components.Hitbox)
-		offset := gfx.V(0, 0)
+	if debug {
 
-		if g.entities.HasComponents(e, components.PosType) {
-			offset = g.Pos(e).Vec
-		}
-
-		draw.Rect(screen, hb.Rect.Moved(offset), colornames.Red)
+		g.drawHitboxes(screen)
 	}
-
-	g.drawEntities(screen)
 
 	// Draw target
 	cursor := mousePosition()
@@ -44,7 +36,23 @@ func (g *Game) draw(screen *ebiten.Image) {
 		draw.ResolvLine(screen, resolvutil.Line(pos.Vec, target), color.RGBA{255, 255, 255, 100})
 	}
 
+	g.drawEntities(screen)
+
 	// screen.DrawImage(tmpImg, &ebiten.DrawImageOptions{})
+}
+
+func (g *Game) drawHitboxes(screen *ebiten.Image) {
+
+	for _, e := range g.filteredEntities(components.HitboxType) {
+		hb := g.entities.GetUnsafe(e, components.HitboxType).(*components.Hitbox)
+		offset := gfx.V(0, 0)
+
+		if g.entities.HasComponents(e, components.PosType) {
+			offset = g.Pos(e).Vec
+		}
+
+		draw.Rect(screen, hb.Rect.Moved(offset), colornames.Red)
+	}
 }
 
 func (g *Game) drawEntities(screen *ebiten.Image) {
@@ -65,8 +73,11 @@ func (g *Game) drawEntities(screen *ebiten.Image) {
 		screen.DrawImage(img, op)
 	}
 
-	for _, e := range g.filteredEntities(components.FollowingType, components.PosType) {
-		// following := g.entities.GetUnsafe(e, components.FollowingType).(*components.Following)
-		draw.Pt(screen, g.Pos(e).Vec, colornames.Burlywood)
+	if debug {
+
+		for _, e := range g.filteredEntities(components.FollowingType, components.PosType) {
+			// following := g.entities.GetUnsafe(e, components.FollowingType).(*components.Following)
+			draw.Pt(screen, g.Pos(e).Vec, colornames.Burlywood)
+		}
 	}
 }
