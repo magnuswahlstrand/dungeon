@@ -62,25 +62,36 @@ func (g *Game) preStep() {
 		v.Y += band2.Y
 	}
 
-	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
+	if mousePressed() {
 
 		switch rubberband {
 		case true:
 
 			rubberband = false
 		case false:
-			rubberband = g.updateHook(cursor)
+			c := mousePosition()
+			rubberband = g.updateHook(c)
 		}
 	}
+}
 
-	// Movement
-	player.X += v.X
-	player.Y += v.Y
+func mousePressed() bool {
+	return inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) || len(inpututil.JustPressedTouchIDs()) > 0
+}
 
+func mousePosition() gfx.Vec {
+	if len(inpututil.JustPressedTouchIDs()) > 0 {
+		ID := inpututil.JustPressedTouchIDs()[0]
+		x, y := ebiten.TouchPosition(ID)
+		return gfx.V(float64(x), float64(y))
+	}
+
+	x, y := ebiten.CursorPosition()
+	return gfx.V(float64(x), float64(y))
 }
 
 func (g *Game) updateHook(c gfx.Vec) bool {
-	target := cursor.Sub(player).Unit().Scaled(1000).Add(player)
+	target := c.Sub(player).Unit().Scaled(1000).Add(player)
 	l := resolvutil.Line(player, target)
 	pts := l.IntersectionPoints(&g.staticSpace)
 	if len(pts) == 0 {
@@ -93,7 +104,5 @@ func (g *Game) updateHook(c gfx.Vec) bool {
 	fmt.Println(hook)
 	return true
 }
-
-var rubberband bool = true
 
 var v = gfx.Vec{0, 0}

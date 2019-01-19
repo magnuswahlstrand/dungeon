@@ -3,7 +3,9 @@
 ## Roadmap
 
 - [x] Build with GopherJS
+- [x] Touch controls
 - [ ] Collision
+- [ ] Use components
 - [ ] Animations
 
 ## Credits
