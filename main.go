@@ -4,11 +4,12 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/kyeett/dungeon/game"
 )
 
 func main() {
 	// create game
-	g, err := New()
+	g, err := game.New(game.OptionFromDisk)
 	if err != nil {
 		log.Fatal("Could not create game", err)
 	}

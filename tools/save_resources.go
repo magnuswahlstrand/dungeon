@@ -42,7 +42,7 @@ func main() {
 	fmt.Fprintln(f, "package assets")
 	fmt.Fprintln(f, "")
 	fmt.Fprintln(f, "import \"log\"")
-	fmt.Fprintln(f, "")
+	fmt.Fprintln(f, "import \"github.com/pkg/errors\"")
 
 	for _, r := range resources {
 		content, err := ioutil.ReadFile(r.path)
@@ -70,5 +70,31 @@ func LookupFatal(path string) []byte {
 	}
 	return Lookup[path]
 }
-	`)
+
+var ReadFromDisk bool
+
+func FileReader(path string) (io.Reader, error) {
+	if ReadFromDisk {
+		f, err := os.Open(path)
+		if err != nil {
+			return nil, errors.Errorf("can't read file from disk: %s", err)
+		}
+		return f, nil
+	}
+
+	return bytes.NewReader(Lookup[path]), nil
+}
+
+func FileReaderFatal(path string) io.Reader {
+	if ReadFromDisk {
+		f, err := os.Open(path)
+		if err != nil {
+			log.Fatal("can't read file from disk", err)
+		}
+		return f
+	}
+
+	return bytes.NewReader(LookupFatal(path))
+}
+`)
 }
