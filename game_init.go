@@ -1,12 +1,15 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"image"
 	"log"
 	"math"
 	"math/rand"
 	"path/filepath"
+
+	"github.com/kyeett/dungeon/assets"
 
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
@@ -89,8 +92,11 @@ func LayerTileID(l *tiled.Layer, width, x, y int) uint32 {
 
 func New() (*Game, error) {
 	filename := "assets/tilesets/world-1.tmx"
-	dir, _ := filepath.Abs(filepath.Dir(filename))
-	m, err := tiled.LoadFromFile(filename)
+	dir := filepath.Dir(filename)
+	file := assets.LookupFatal(filename)
+
+	// m, err := tiled.LoadFromFile(filename)
+	m, err := tiled.LoadFromReader(dir, bytes.NewReader(file))
 	if err != nil {
 		fmt.Println(err)
 		return &Game{}, err
@@ -99,7 +105,11 @@ func New() (*Game, error) {
 	// Load sprite image
 	tileset := m.Tilesets[0]
 	tilesetPath := tileset.Source
-	tilesetImg, err := gfx.OpenPNG(dir + "/" + tileset.Image.Source)
+	path := dir + "/" + tileset.Image.Source
+	fmt.Println(path)
+	// gfx.DecodePNG()
+	// tilesetImg, err := gfx.OpenPNG(path)
+	tilesetImg, err := gfx.DecodePNG(bytes.NewReader(assets.LookupFatal(path)))
 	if err != nil {
 		log.Fatal(tilesetPath, err)
 	}

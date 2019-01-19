@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"image"
 	"image/color"
 	"log"
@@ -8,6 +9,7 @@ import (
 	"github.com/peterhellberg/gfx"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/kyeett/dungeon/assets"
 	"github.com/kyeett/dungeon/draw"
 	"github.com/kyeett/dungeon/resolvutil"
 	"github.com/kyeett/gomponents/components"
@@ -30,7 +32,9 @@ var playerImg *ebiten.Image
 func init() {
 	tmpImg, _ = ebiten.NewImage(12*16, 12*16, ebiten.FilterDefault)
 
-	img, err := gfx.OpenPNG("assets/animation/hero.png")
+	path := "assets/animation/hero.png"
+	img, err := gfx.DecodePNG(bytes.NewReader(assets.LookupFatal(path)))
+	// img, err := gfx.OpenPNG(path)
 	if err != nil {
 		log.Fatal(err)
 	}
