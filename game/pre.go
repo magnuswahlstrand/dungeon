@@ -2,15 +2,33 @@ package game
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/inpututil"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/kyeett/dungeon/resolvutil"
+	"github.com/kyeett/gomponents/components"
 	"github.com/peterhellberg/gfx"
 )
 
 func (g *Game) preStep() {
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyF) {
+		// Slash
+		slashID := g.UUID()
+		g.entityList = append(g.entityList, slashID)
+		g.entities.Add(slashID, components.Pos{Vec: g.Pos(playerID).Vec})
+		g.entities.Add(slashID, components.Drawable{Image: slashImg})
+		g.entities.Add(slashID, components.Animated{Ase: slashFile})
+		g.entities.Add(slashID, components.Timed{Time: time.Now().Add(400 * time.Millisecond)})
+		g.entities.Add(slashID, components.Following{ID: playerID, Offset: gfx.V(5, 0)})
+
+		// Update animation
+		a := g.entities.GetUnsafe(playerID, components.AnimatedType).(*components.Animated)
+		a.Ase.Play("Slash")
+
+	}
 
 	v := g.V(playerID)
 
@@ -65,7 +83,6 @@ func (g *Game) preStep() {
 	max := 5.5
 	if v.Len() > max {
 		v.Vec = v.Unit().Scaled(max)
-		fmt.Println("Maex")
 	}
 
 	if mousePressed() {
@@ -120,7 +137,6 @@ func (g *Game) updateHook(c gfx.Vec) bool {
 	target := c.Sub(pos.Vec).Unit().Scaled(200).Add(pos.Vec)
 	l := resolvutil.ScaledLine(pos.Vec, target, collisionScaling)
 	pts := l.IntersectionPoints(&g.staticSpace)
-	fmt.Println(l)
 	if len(pts) == 0 {
 		// no points found
 		fmt.Println("missed")

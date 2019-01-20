@@ -1,7 +1,6 @@
 package game
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 
@@ -83,7 +82,6 @@ func (g *Game) drawEntities(screen *ebiten.Image) {
 			a := g.entities.GetUnsafe(e, components.AnimatedType).(*components.Animated)
 			w, h := a.Ase.FrameWidth, a.Ase.FrameHeight
 			x, y := a.Ase.GetFrameXY()
-			fmt.Println(w, h, x, y)
 			img = img.SubImage(image.Rect(int(x), int(y), int(x+w), int(y+h))).(*ebiten.Image)
 		}
 		op := &ebiten.DrawImageOptions{}

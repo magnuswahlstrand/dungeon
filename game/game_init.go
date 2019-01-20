@@ -115,9 +115,21 @@ func New(options ...Option) (*Game, error) {
 	g.newPlayer()
 	g.initMap()
 
+	// Add slash
+	slashFile = ase.Load("assets/animation/slash.json")
+	slashFile.Play("Slash")
+	img, err := gfx.DecodePNG(assets.FileReaderFatal(slashFile.ImagePath))
+	if err != nil {
+		log.Fatal(err)
+	}
+	slashImg, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+
 	currentTime = time.Now()
 	return &g, nil
 }
+
+var slashFile ase.File
+var slashImg *ebiten.Image
 
 func (g *Game) newPlayer() {
 
@@ -127,30 +139,24 @@ func (g *Game) newPlayer() {
 	g.entities.Add(playerID, components.Pos{Vec: gfx.V(0, 0)})
 	g.entities.Add(playerID, components.Velocity{Vec: gfx.V(0, 0)})
 
-	// Add hook
-	g.entityList = append(g.entityList, hookID)
-	g.entities.Add(hookID, components.Pos{Vec: gfx.V(0, 0)})
-	g.entities.Add(hookID, components.Following{ID: playerID, Offset: gfx.V(16, 16)})
-
 	playerFile := ase.Load("assets/animation/hero.json")
 	playerFile.Play("Slash")
-
-	// path := "assets/animation/hero_animated.png"
 	img, err := gfx.DecodePNG(assets.FileReaderFatal(playerFile.ImagePath))
-	// img, err := gfx.OpenPNG(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 	playerImg, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
-	g.entities.Add(playerID, components.Drawable{playerImg})
-	g.entities.Add(playerID, components.Animated{playerFile})
+	g.entities.Add(playerID, components.Drawable{Image: playerImg})
+	g.entities.Add(playerID, components.Animated{Ase: playerFile})
 
-	// playerFile = ase.Load("assets/graphics/character.json")
+	// Add hook
+	g.entityList = append(g.entityList, hookID)
+	g.entities.Add(hookID, components.Pos{Vec: gfx.V(0, 0)})
+	g.entities.Add(hookID, components.Following{ID: playerID, Offset: gfx.V(16, 16)})
 }
 
 func (g *Game) parseObject(o *tiled.Object) {
-	id := fmt.Sprintf("%d", rand.Intn(10000))
-
+	ID := g.UUID()
 	switch o.Type {
 	case "player":
 		pos := g.Pos(playerID)
@@ -170,7 +176,11 @@ func (g *Game) parseObject(o *tiled.Object) {
 		g.staticSpace.AddShape(resolvutil.ScaledRect(r, collisionScaling))
 
 		b := components.NewHitbox(r)
-		g.entities.Add(id, b)
-		g.entityList = append(g.entityList, id)
+		g.entities.Add(ID, b)
+		g.entityList = append(g.entityList, ID)
 	}
+}
+
+func (g *Game) UUID() string {
+	return fmt.Sprintf("%d", rand.Intn(10000))
 }

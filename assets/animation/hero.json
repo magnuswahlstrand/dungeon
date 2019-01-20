@@ -1,5 +1,5 @@
 { "frames": {
-   "hero 0.png": {
+   "hero 0.ase": {
     "frame": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 1.png": {
+   "hero 1.ase": {
     "frame": { "x": 32, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 2.png": {
+   "hero 2.ase": {
     "frame": { "x": 64, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 3.png": {
+   "hero 3.ase": {
     "frame": { "x": 96, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -31,7 +31,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 4.png": {
+   "hero 4.ase": {
     "frame": { "x": 128, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -39,7 +39,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 5.png": {
+   "hero 5.ase": {
     "frame": { "x": 160, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -47,7 +47,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 6.png": {
+   "hero 6.ase": {
     "frame": { "x": 192, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -55,7 +55,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 7.png": {
+   "hero 7.ase": {
     "frame": { "x": 224, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -63,7 +63,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 8.png": {
+   "hero 8.ase": {
     "frame": { "x": 256, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -71,7 +71,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 9.png": {
+   "hero 9.ase": {
     "frame": { "x": 288, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -79,7 +79,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 10.png": {
+   "hero 10.ase": {
     "frame": { "x": 320, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -87,7 +87,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 11.png": {
+   "hero 11.ase": {
     "frame": { "x": 352, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -95,7 +95,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 12.png": {
+   "hero 12.ase": {
     "frame": { "x": 384, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -103,7 +103,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 13.png": {
+   "hero 13.ase": {
     "frame": { "x": 416, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -111,7 +111,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 14.png": {
+   "hero 14.ase": {
     "frame": { "x": 448, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -119,7 +119,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 15.png": {
+   "hero 15.ase": {
     "frame": { "x": 480, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -127,7 +127,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 16.png": {
+   "hero 16.ase": {
     "frame": { "x": 512, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -135,23 +135,23 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 17.png": {
+   "hero 17.ase": {
     "frame": { "x": 544, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
+    "duration": 200
    },
-   "hero 18.png": {
+   "hero 18.ase": {
     "frame": { "x": 576, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
+    "duration": 200
    },
-   "hero 19.png": {
+   "hero 19.ase": {
     "frame": { "x": 608, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -159,7 +159,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 20.png": {
+   "hero 20.ase": {
     "frame": { "x": 640, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -167,7 +167,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 21.png": {
+   "hero 21.ase": {
     "frame": { "x": 672, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -175,8 +175,16 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
    },
-   "hero 22.png": {
+   "hero 22.ase": {
     "frame": { "x": 704, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "hero 23.ase": {
+    "frame": { "x": 736, "y": 0, "w": 32, "h": 32 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
@@ -189,16 +197,17 @@
   "version": "1.2.9",
   "image": "/Users/test/go/src/github.com/kyeett/dungeon/assets/animation/hero_animated.png",
   "format": "RGBA8888",
-  "size": { "w": 736, "h": 32 },
+  "size": { "w": 768, "h": 32 },
   "scale": "1",
   "frameTags": [
-   { "name": "Walk", "from": 0, "to": 3, "direction": "forward" },
-   { "name": "Run", "from": 4, "to": 7, "direction": "forward" },
-   { "name": "Jump", "from": 8, "to": 9, "direction": "forward" },
-   { "name": "Land", "from": 10, "to": 11, "direction": "forward" },
-   { "name": "Hit", "from": 12, "to": 14, "direction": "forward" },
-   { "name": "Slash", "from": 15, "to": 18, "direction": "forward" },
-   { "name": "Death", "from": 19, "to": 22, "direction": "forward" }
+   { "name": "Stand", "from": 0, "to": 0, "direction": "forward" },
+   { "name": "Walk", "from": 1, "to": 4, "direction": "forward" },
+   { "name": "Run", "from": 5, "to": 8, "direction": "forward" },
+   { "name": "Jump", "from": 9, "to": 10, "direction": "forward" },
+   { "name": "Land", "from": 11, "to": 12, "direction": "forward" },
+   { "name": "Hit", "from": 13, "to": 15, "direction": "forward" },
+   { "name": "Slash", "from": 16, "to": 19, "direction": "forward" },
+   { "name": "Death", "from": 20, "to": 23, "direction": "forward" }
   ],
   "slices": [
   ]

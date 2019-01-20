@@ -40,7 +40,6 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	g.draw(screen)
 
 	// gfx.SavePNG("map.png", screen)
-
-	// rend.SaveAsPng(img
+	// return gfx.ErrDone
 	return nil
 }
