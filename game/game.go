@@ -13,7 +13,6 @@ import (
 type Game struct {
 	entityList    []string
 	entities      *components.Map
-	Width, Height int
 	baseDir       string
 	m             *tiled.Map
 	spriteImg     *ebiten.Image
@@ -39,6 +38,8 @@ func (g *Game) Update(screen *ebiten.Image) error {
 
 	// Draw
 	g.draw(screen)
+
+	// gfx.SavePNG("map.png", screen)
 
 	// rend.SaveAsPng(img
 	return nil

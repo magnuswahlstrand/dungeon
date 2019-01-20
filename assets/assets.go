@@ -52,10 +52,10 @@ func FileReader(path string) (io.Reader, error) {
 func FileReaderFatal(path string) io.Reader {
 	if ReadFromDisk {
 		f, err := os.Open(path)
+		fmt.Println("Read from disk", path)
 		if err != nil {
 			log.Fatal("can't read file from disk", err)
 		}
-		fmt.Println("Read from disk", path)
 		return f
 	}
 

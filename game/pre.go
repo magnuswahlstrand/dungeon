@@ -1,7 +1,7 @@
 package game
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/hajimehoshi/ebiten/inpututil"
 
@@ -12,30 +12,33 @@ import (
 
 func (g *Game) preStep() {
 
-	pos := g.Pos(playerID)
 	v := g.V(playerID)
+
+	if ebiten.IsKeyPressed(ebiten.KeyW) {
+		if v.Y == 0 {
+			v.Y = -jumpSpeed
+		}
+	}
 
 	// Gravity
 	v.Y += gravity
 
 	// Friction
-	v.X = 0.98 * v.X
+	v.X = 0.93 * v.X
 	v.Y = 0.96 * v.Y
 
 	if ebiten.IsKeyPressed(ebiten.KeyD) {
-		pos.Vec.X++
+		v.X += accX
+		if v.X > 2 {
+			v.X = 2
+		}
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyA) {
-		pos.Vec.X--
-	}
-
-	if ebiten.IsKeyPressed(ebiten.KeyS) {
-		v.Y += 0.1
-	}
-
-	if ebiten.IsKeyPressed(ebiten.KeyW) {
-		v.Y = 0.1
+		v.X -= accX
+		if v.X < -2 {
+			v.X = -2
+		}
 	}
 
 	// Apply rubber effect
@@ -43,19 +46,26 @@ func (g *Game) preStep() {
 
 		band := hook.Sub(g.Pos(hookID).Vec)
 		dist := band.Len()
-		pw := (dist - 20) / 20
+		pw := (dist - 15) / 50
+
 		if pw < 0 {
 			pw = 0
 		}
 
-		if pw > 2*gravity {
-			pw = 2 * gravity
+		if pw > 3*gravity {
+			pw = 3 * gravity
 		}
 
 		band2 := band.Unit().Scaled(pw)
 
 		v.X += band2.X
 		v.Y += band2.Y
+	}
+
+	max := 5.5
+	if v.Len() > max {
+		v.Vec = v.Unit().Scaled(max)
+		fmt.Println("Maex")
 	}
 
 	if mousePressed() {
@@ -67,6 +77,27 @@ func (g *Game) preStep() {
 			rubberband = g.updateHook(c)
 		}
 	}
+}
+
+func limit(v float64, mx float64) float64 {
+	if v < 0 {
+		return -min(mx, -v)
+	}
+	return min(mx, v)
+}
+
+func min(a, b float64) float64 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func max(a, b float64) float64 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 func mousePressed() bool {
@@ -86,15 +117,16 @@ func mousePosition() gfx.Vec {
 
 func (g *Game) updateHook(c gfx.Vec) bool {
 	pos := g.Pos(hookID)
-	target := c.Sub(pos.Vec).Unit().Scaled(1000).Add(pos.Vec)
-	l := resolvutil.Line(pos.Vec, target)
+	target := c.Sub(pos.Vec).Unit().Scaled(200).Add(pos.Vec)
+	l := resolvutil.ScaledLine(pos.Vec, target, collisionScaling)
 	pts := l.IntersectionPoints(&g.staticSpace)
+	fmt.Println(l)
 	if len(pts) == 0 {
 		// no points found
-		log.Fatal("yo")
+		fmt.Println("missed")
 		return false
 	}
 
-	hook = gfx.V(float64(pts[0].X), float64(pts[0].Y))
+	hook = gfx.V(float64(pts[0].X)/collisionScaling, float64(pts[0].Y)/collisionScaling)
 	return true
 }

@@ -7,15 +7,18 @@ import (
 	"math"
 	"math/rand"
 	"path/filepath"
-
-	"github.com/kyeett/dungeon/assets"
+	"time"
 
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
+	"github.com/peterhellberg/gfx"
+
+	ase "github.com/kyeett/GoAseprite"
+	tiled "github.com/lafriks/go-tiled"
+
+	"github.com/kyeett/dungeon/assets"
 	"github.com/kyeett/dungeon/resolvutil"
 	"github.com/kyeett/gomponents/components"
-	tiled "github.com/lafriks/go-tiled"
-	"github.com/peterhellberg/gfx"
 )
 
 func (g *Game) initMap() {
@@ -26,7 +29,7 @@ func (g *Game) initMap() {
 				continue
 			}
 
-			sx, sy := i%g.m.Width, i/g.m.Height
+			sx, sy := i%g.m.Width, i/g.m.Width
 
 			x, y := TilesheetCoords(g.m.Tilesets[0], t.ID)
 			srcRect := image.Rect(0, 0, g.m.TileWidth, g.m.TileHeight).Add(image.Pt(x, y))
@@ -52,7 +55,6 @@ func (g *Game) initMap() {
 
 	g.staticSpace = resolv.Space{}
 	for _, og := range g.m.ObjectGroups {
-		fmt.Println("og", og.Name)
 		for _, o := range og.Objects {
 			g.parseObject(o)
 		}
@@ -85,7 +87,6 @@ func New(options ...Option) (*Game, error) {
 	// m, err := tiled.LoadFromFile(filename)
 	m, err := tiled.LoadFromReader(dir, assets.FileReaderFatal(filename))
 	if err != nil {
-		fmt.Println(err)
 		return &Game{}, err
 	}
 
@@ -114,22 +115,37 @@ func New(options ...Option) (*Game, error) {
 	g.newPlayer()
 	g.initMap()
 
+	currentTime = time.Now()
 	return &g, nil
 }
 
 func (g *Game) newPlayer() {
+
 	hitbox := gfx.R(10, 10, 22, 26)
-	r := gfx.R(0, 0, 32, 32).Bounds()
 	g.entityList = append(g.entityList, playerID)
 	g.entities.Add(playerID, components.NewHitbox(hitbox))
 	g.entities.Add(playerID, components.Pos{Vec: gfx.V(0, 0)})
 	g.entities.Add(playerID, components.Velocity{Vec: gfx.V(0, 0)})
-	g.entities.Add(playerID, components.Drawable{playerImg.SubImage(r).(*ebiten.Image)})
 
 	// Add hook
 	g.entityList = append(g.entityList, hookID)
 	g.entities.Add(hookID, components.Pos{Vec: gfx.V(0, 0)})
 	g.entities.Add(hookID, components.Following{ID: playerID, Offset: gfx.V(16, 16)})
+
+	playerFile := ase.Load("assets/animation/hero.json")
+	playerFile.Play("Slash")
+
+	// path := "assets/animation/hero_animated.png"
+	img, err := gfx.DecodePNG(assets.FileReaderFatal(playerFile.ImagePath))
+	// img, err := gfx.OpenPNG(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	playerImg, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+	g.entities.Add(playerID, components.Drawable{playerImg})
+	g.entities.Add(playerID, components.Animated{playerFile})
+
+	// playerFile = ase.Load("assets/graphics/character.json")
 }
 
 func (g *Game) parseObject(o *tiled.Object) {
@@ -151,7 +167,7 @@ func (g *Game) parseObject(o *tiled.Object) {
 		}
 
 		rs = append(rs, r)
-		g.staticSpace.AddShape(resolvutil.Rect(r))
+		g.staticSpace.AddShape(resolvutil.ScaledRect(r, collisionScaling))
 
 		b := components.NewHitbox(r)
 		g.entities.Add(id, b)

@@ -9,13 +9,13 @@ import (
 
 func main() {
 	// create game
-	g, err := game.New()
+	g, err := game.New(game.OptionFromDisk)
 	if err != nil {
 		log.Fatal("Could not create game", err)
 	}
 
 	// start game
-	if err := ebiten.Run(g.Update, 12*16, 12*16, 3, "Dungeon"); err != nil {
+	if err := ebiten.Run(g.Update, g.Width()*16, g.Height()*16, 3, "Dungeon"); err != nil {
 		log.Fatal(err)
 	}
 }

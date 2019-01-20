@@ -1,12 +1,7 @@
 package game
 
 import (
-	"log"
-
-	"github.com/peterhellberg/gfx"
-
 	"github.com/hajimehoshi/ebiten"
-	"github.com/kyeett/dungeon/assets"
 	"github.com/kyeett/gomponents/components"
 )
 
@@ -20,18 +15,26 @@ func (g *Game) filteredEntities(types ...components.Type) []string {
 	return IDs
 }
 
+func (g *Game) Width() int {
+	return g.m.Width
+}
+
+func (g *Game) Height() int {
+	return g.m.Height
+}
+
 var tmpImg *ebiten.Image
 var playerImg *ebiten.Image
 
-func init() {
-	tmpImg, _ = ebiten.NewImage(12*16, 12*16, ebiten.FilterDefault)
+// func init() {
+// 	tmpImg, _ = ebiten.NewImage(12*16, 12*16, ebiten.FilterDefault)
 
-	path := "assets/animation/hero.png"
-	img, err := gfx.DecodePNG(assets.FileReaderFatal(path))
-	// img, err := gfx.OpenPNG(path)
-	if err != nil {
-		log.Fatal(err)
-	}
+// 	path := "assets/animation/hero_animated.png"
+// 	img, err := gfx.DecodePNG(assets.FileReaderFatal(path))
+// 	// img, err := gfx.OpenPNG(path)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
 
-	playerImg, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
-}
+// 	playerImg, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+// }
