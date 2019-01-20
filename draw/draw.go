@@ -2,12 +2,17 @@ package draw
 
 import (
 	"image/color"
+	"log"
 
 	"github.com/SolarLune/resolv/resolv"
+	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
+	"github.com/hajimehoshi/ebiten/text"
 	"github.com/peterhellberg/gfx"
 	"golang.org/x/image/colornames"
+	"golang.org/x/image/font"
+	"golang.org/x/image/font/gofont/gomono"
 )
 
 var DrawRect bool = true
@@ -57,17 +62,46 @@ var GameColorsTransparent = []color.Color{
 	color.RGBA{0xff, 0xf1, 0xeb, 0xAF},
 }
 
-/*
-	a := &gfx.Animation{
-		frames,
-		[]color.Palette{
-			gamePalette,
-			gamePalette,
-			gamePalette,
-		},
-		50,
-		0,
+func init() {
+	fnt, err := truetype.Parse(gomono.TTF)
+	if err != nil {
+		log.Fatal("loading font:", err)
 	}
+	const dpi = 144
+	FontFace5 = truetype.NewFace(fnt, &truetype.Options{
+		Size:    5,
+		DPI:     dpi,
+		Hinting: font.HintingNone,
+	})
+	FontFace7 = truetype.NewFace(fnt, &truetype.Options{
+		Size:    7,
+		DPI:     dpi,
+		Hinting: font.HintingNone,
+	})
+	FontFace9 = truetype.NewFace(fnt, &truetype.Options{
+		Size:    9,
+		DPI:     dpi,
+		Hinting: font.HintingNone,
+	})
+	FontFace11 = truetype.NewFace(fnt, &truetype.Options{
+		Size:    11,
+		DPI:     dpi,
+		Hinting: font.HintingNone,
+	})
+}
 
-	a.SaveGIF("animation.gif")
-*/
+var FontFace5 font.Face
+var FontFace7 font.Face
+var FontFace9 font.Face
+var FontFace11 font.Face
+
+func CenterText(screen *ebiten.Image, txt string, face font.Face, c color.Color, offsetY ...int) {
+	y := 0
+	for _, o := range offsetY {
+		y += o
+	}
+	size := face.Metrics().Height.Ceil() / 2
+	width := int(1.135 * float64(len(txt)*size))
+	w, h := screen.Size()
+	text.Draw(screen, txt, face, (w-width)/2, (h+size)/2+y, c)
+}

@@ -4,7 +4,7 @@
 
 ### 0.5
 
-- [ ] Text goal
+- [x] Text goal
 - [ ] Win condition/screen
 - [x] Restart button
 - [x] Restart on death
@@ -21,7 +21,7 @@
 ### 0.x
 
 - [ ] Correct size on phone
-- [ ] Instructions on first screen
+- [x] Instructions on first screen
 - [ ] Sound on
   - [ ] hook
   - [ ] death

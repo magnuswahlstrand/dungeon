@@ -3,6 +3,7 @@ package game
 import (
 	"fmt"
 	"image"
+	"image/color"
 	"log"
 	"math"
 	"math/rand"
@@ -13,12 +14,14 @@ import (
 
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/text"
 	"github.com/peterhellberg/gfx"
 
 	ase "github.com/kyeett/GoAseprite"
 	tiled "github.com/lafriks/go-tiled"
 
 	"github.com/kyeett/dungeon/assets"
+	"github.com/kyeett/dungeon/draw"
 	"github.com/kyeett/dungeon/resolvutil"
 	"github.com/kyeett/gomponents/components"
 )
@@ -164,6 +167,10 @@ func (g *Game) parseObject(o *tiled.Object) {
 	case "player":
 		pos := g.Pos(playerID)
 		pos.X, pos.Y = float64(o.X), float64(o.Y)
+	case "trigger":
+		g.newTrigger(o)
+	case "text":
+		g.newText(o)
 	default:
 
 		r := gfx.R(o.X, o.Y, o.X+o.Width, o.Y+o.Height)
@@ -194,4 +201,22 @@ func (g *Game) parseObject(o *tiled.Object) {
 
 func (g *Game) UUID() string {
 	return fmt.Sprintf("%d", rand.Intn(10000))
+}
+
+func (g *Game) newText(o *tiled.Object) {
+	text.Draw(g.backgroundImg, o.Name, draw.FontFace7, int(o.X), int(o.Y+10), color.White)
+	fmt.Println("New text", o.Name)
+}
+
+func (g *Game) newTrigger(o *tiled.Object) {
+	id := fmt.Sprintf("%d", rand.Intn(1000000))
+
+	trigger := components.Trigger{
+		Rect:      gfx.R(float64(o.X), float64(o.Y), float64(o.X+o.Width), float64(o.Y+o.Height)),
+		Direction: direction.All,
+	}
+
+	g.entities.Add(id, trigger)
+	g.entityList = append(g.entityList, id)
+	fmt.Printf("adding trigger: %v\n", trigger)
 }
