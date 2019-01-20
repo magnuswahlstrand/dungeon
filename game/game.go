@@ -27,6 +27,11 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		return gfx.ErrDone
 	}
 
+	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
+		g.Reset()
+		return nil
+	}
+
 	// Pre-step
 	g.preStep()
 

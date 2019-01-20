@@ -2,7 +2,7 @@ package game
 
 import "github.com/peterhellberg/gfx"
 
-var debug bool = false
+var debug bool = true
 var rubberband bool
 
 var hook = gfx.Vec{50, 32}

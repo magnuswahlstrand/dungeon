@@ -26,7 +26,6 @@ func (g *Game) playerDying() bool {
 
 func (g *Game) handleControls() {
 	if g.playerDead() {
-		fmt.Println("Dead!! don't move")
 		return
 	}
 

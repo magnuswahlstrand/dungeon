@@ -53,8 +53,20 @@ func (g *Game) postStep() {
 			// Remove entity
 			g.removeEntity(e)
 			fmt.Println("Remove")
+
 		} else {
 			fmt.Println("Not remove")
+		}
+	}
+
+	// Perform entity scenarios
+	for _, e := range g.filteredEntities(components.ScenarioType) {
+		scenario := g.entities.GetUnsafe(e, components.ScenarioType).(*components.Scenario)
+		fmt.Println("in here")
+		finished := scenario.F()
+
+		if finished == true {
+			g.removeEntity(e)
 		}
 	}
 }

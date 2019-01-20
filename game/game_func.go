@@ -38,3 +38,10 @@ var playerImg *ebiten.Image
 
 // 	playerImg, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
 // }
+
+func (g *Game) Reset() {
+	rubberband = false
+	g.removeEntity(playerID)
+	g.newPlayer()
+	g.initMap()
+}

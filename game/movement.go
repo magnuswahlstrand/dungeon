@@ -1,6 +1,9 @@
 package game
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/kyeett/dungeon/resolvutil"
 
 	"github.com/kyeett/gomponents/components"
@@ -47,13 +50,29 @@ func (g *Game) handleMovement(ID string) {
 }
 
 func (g *Game) handleDeath(ID string) {
-	if g.playerDead() {
+	if g.playerDead() || g.playerDying() {
 		return
 	}
 
 	a := g.Animated(playerID)
 	a.Ase.Play("Death")
 	rubberband = false
+
+	// Add timer until reset
+	fmt.Println("add timer")
+	end := time.Now().Add(1 * time.Second)
+	scenarioID := g.UUID()
+	g.entities.Add(scenarioID, components.Scenario{
+		F: func() bool {
+			if time.Now().After(end) {
+				g.Reset()
+				return true
+			}
+
+			return false
+		},
+	})
+	g.entityList = append(g.entityList, scenarioID)
 }
 
 func abs(v float64) float64 {

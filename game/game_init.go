@@ -140,7 +140,7 @@ func (g *Game) newPlayer() {
 	g.entities.Add(playerID, components.NewHitbox(hitbox))
 	g.entities.Add(playerID, components.Pos{Vec: gfx.V(0, 0)})
 	g.entities.Add(playerID, components.Velocity{Vec: gfx.V(0, 0)})
-	g.entities.Add(playerID, components.Directed{D: direction.Left})
+	g.entities.Add(playerID, components.Directed{D: direction.Right})
 
 	playerFile := ase.Load("assets/animation/hero.json")
 	playerFile.Play("Stand")
