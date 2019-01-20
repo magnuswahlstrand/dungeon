@@ -2,11 +2,14 @@
 
 ## Roadmap
 
+- [x] Fix Aesprite bug
+- [x] Turn player
+- [x] Turn slash with player
 - [x] Build with GopherJS
 - [x] Touch controls
-- [ ] Collision
-- [ ] Use components
-- [ ] Animations
+- [x] Collision
+- [x] Use components
+- [x] Animations
 
 ## Credits
 

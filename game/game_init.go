@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/kyeett/gomponents/direction"
+
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/peterhellberg/gfx"
@@ -138,6 +140,7 @@ func (g *Game) newPlayer() {
 	g.entities.Add(playerID, components.NewHitbox(hitbox))
 	g.entities.Add(playerID, components.Pos{Vec: gfx.V(0, 0)})
 	g.entities.Add(playerID, components.Velocity{Vec: gfx.V(0, 0)})
+	g.entities.Add(playerID, components.Directed{D: direction.Left})
 
 	playerFile := ase.Load("assets/animation/hero.json")
 	playerFile.Play("Slash")

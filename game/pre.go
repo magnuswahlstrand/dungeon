@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/kyeett/gomponents/direction"
+
 	"github.com/hajimehoshi/ebiten/inpututil"
 
 	"github.com/hajimehoshi/ebiten"
@@ -22,7 +24,7 @@ func (g *Game) preStep() {
 		g.entities.Add(slashID, components.Drawable{Image: slashImg})
 		g.entities.Add(slashID, components.Animated{Ase: slashFile})
 		g.entities.Add(slashID, components.Timed{Time: time.Now().Add(400 * time.Millisecond)})
-		g.entities.Add(slashID, components.Following{ID: playerID, Offset: gfx.V(5, 0)})
+		g.entities.Add(slashID, components.Following{ID: playerID, Offset: gfx.V(0, 0)})
 
 		// Update animation
 		a := g.entities.GetUnsafe(playerID, components.AnimatedType).(*components.Animated)
@@ -45,11 +47,13 @@ func (g *Game) preStep() {
 	v.X = 0.93 * v.X
 	v.Y = 0.96 * v.Y
 
+	d := g.entities.GetUnsafe(playerID, components.DirectedType).(*components.Directed)
 	if ebiten.IsKeyPressed(ebiten.KeyD) {
 		v.X += accX
 		if v.X > 2 {
 			v.X = 2
 		}
+		d.D = direction.Right
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyA) {
@@ -57,6 +61,7 @@ func (g *Game) preStep() {
 		if v.X < -2 {
 			v.X = -2
 		}
+		d.D = direction.Left
 	}
 
 	// Apply rubber effect

@@ -1,8 +1,6 @@
 package game
 
 import (
-	"fmt"
-
 	"github.com/kyeett/dungeon/resolvutil"
 
 	"github.com/kyeett/gomponents/components"
@@ -19,7 +17,6 @@ func (g *Game) movement() {
 	if res := g.staticSpace.Resolve(r, 0, int32(collisionScaling*v.Y)); res.Colliding() && !res.Teleporting {
 		v.Y = 0
 	} else {
-		fmt.Println("")
 		if abs(v.Y) > 0.1 {
 			pos.Y += v.Y
 		}

@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/kyeett/gomponents/components"
@@ -22,9 +23,11 @@ func (g *Game) postStep() {
 
 	// Animated
 	for _, e := range g.filteredEntities(components.AnimatedType) {
+		fmt.Println("Updating", e)
 		a := g.entities.GetUnsafe(e, components.AnimatedType).(*components.Animated)
-		if a.Ase.IsPlaying("Slash") {
+		if e == playerID && a.Ase.IsPlaying("Slash") {
 			if a.Ase.FinishedAnimation() {
+				fmt.Println("Finished")
 				a.Ase.Play("Stand")
 			}
 		}
@@ -32,13 +35,16 @@ func (g *Game) postStep() {
 		a.Ase.Update(float32(diffTime.Nanoseconds()) / 1000000000)
 	}
 
+	// Check timers
 	for _, e := range g.filteredEntities(components.TimedType) {
 		t := g.entities.GetUnsafe(e, components.TimedType).(*components.Timed)
 
 		if t.Time.Sub(time.Now()) < 0 {
 			// Remove entity
 			g.removeEntity(e)
+			fmt.Println("Remove")
 		} else {
+			fmt.Println("Not remove")
 		}
 	}
 }

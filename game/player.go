@@ -11,3 +11,11 @@ func (g *Game) Pos(e string) *components.Pos {
 func (g *Game) V(e string) *components.Velocity {
 	return g.entities.GetUnsafe(e, components.VelocityType).(*components.Velocity)
 }
+
+func (g *Game) Directed(e string) *components.Directed {
+	return g.entities.GetUnsafe(e, components.DirectedType).(*components.Directed)
+}
+
+func (g *Game) Drawable(e string) *components.Drawable {
+	return g.entities.GetUnsafe(e, components.DrawableType).(*components.Drawable)
+}

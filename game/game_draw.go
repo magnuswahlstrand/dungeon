@@ -4,6 +4,8 @@ import (
 	"image"
 	"image/color"
 
+	"github.com/kyeett/gomponents/direction"
+
 	"github.com/hajimehoshi/ebiten"
 	"github.com/kyeett/dungeon/draw"
 	"github.com/kyeett/dungeon/resolvutil"
@@ -77,14 +79,43 @@ func (g *Game) drawEntities(screen *ebiten.Image) {
 		pos := g.entities.GetUnsafe(e, components.PosType).(*components.Pos)
 		s := g.entities.GetUnsafe(e, components.DrawableType).(*components.Drawable)
 		img := s.Image
-		// If animated
+
+		// Handle animated entites
 		if g.entities.HasComponents(e, components.AnimatedType) {
 			a := g.entities.GetUnsafe(e, components.AnimatedType).(*components.Animated)
 			w, h := a.Ase.FrameWidth, a.Ase.FrameHeight
 			x, y := a.Ase.GetFrameXY()
 			img = img.SubImage(image.Rect(int(x), int(y), int(x+w), int(y+h))).(*ebiten.Image)
 		}
+
+		// Handle directed entities
 		op := &ebiten.DrawImageOptions{}
+		if g.entities.HasComponents(e, components.DirectedType) {
+			d := g.Directed(e)
+
+			switch d.D {
+			case direction.Left:
+				w, h := img.Size()
+				op.GeoM.Translate(-float64(w)/2, -float64(h)/2)
+				op.GeoM.Scale(-1, 1)
+				op.GeoM.Translate(float64(w)/2, float64(h)/2)
+			}
+		}
+
+		// Handle following entities following directed
+		if g.entities.HasComponents(e, components.FollowingType) {
+			following := g.entities.GetUnsafe(e, components.FollowingType).(*components.Following)
+
+			d := g.Directed(following.ID)
+			switch d.D {
+			case direction.Left:
+				w, h := img.Size()
+				op.GeoM.Translate(-float64(w)/2, -float64(h)/2)
+				op.GeoM.Scale(-1, 1)
+				op.GeoM.Translate(float64(w)/2, float64(h)/2)
+			}
+		}
+
 		op.GeoM.Translate(pos.X, pos.Y)
 		screen.DrawImage(img, op)
 	}
