@@ -4,7 +4,7 @@
 
 ### 0.5
 
-- [ ] Build with GopherJS
+- [x] Build with GopherJS
 - [x] Rectangle camera
 - [x] Win condition/screen
 - [x] Text goal

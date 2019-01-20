@@ -15,8 +15,20 @@ type resource struct {
 func main() {
 	resources := []resource{
 		resource{
-			path: "assets/animation/hero.png",
-			name: "Hero_png",
+			path: "assets/animation/hero_animated.png",
+			name: "Hero_animated_png",
+		},
+		resource{
+			path: "assets/animation/hero.json",
+			name: "Hero_json",
+		},
+		resource{
+			path: "assets/animation/slash.png",
+			name: "Slash_png",
+		},
+		resource{
+			path: "assets/animation/slash.json",
+			name: "Slash_json",
 		},
 		resource{
 			path: "assets/tilesets/tiles.png",
@@ -42,6 +54,10 @@ func main() {
 	fmt.Fprintln(f, "package assets")
 	fmt.Fprintln(f, "")
 	fmt.Fprintln(f, "import \"log\"")
+	fmt.Fprintln(f, "import \"io\"")
+	fmt.Fprintln(f, "import \"os\"")
+	fmt.Fprintln(f, "import \"bytes\"")
+	fmt.Fprintln(f, "import \"fmt\"")
 	fmt.Fprintln(f, "import \"github.com/pkg/errors\"")
 
 	for _, r := range resources {
@@ -65,6 +81,7 @@ func main() {
 	fmt.Fprint(f, `
 // Throws a log fatal if path doesn't exist
 func LookupFatal(path string) []byte {
+	fmt.Println("Read from disk", path, "'")
 	if _, ok := Lookup[path]; !ok {
 		log.Fatalf("no such resource %s", path)
 	}

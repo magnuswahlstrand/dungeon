@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// create game
-	g, err := game.New(game.OptionFromDisk)
+	g, err := game.New()
 	if err != nil {
 		log.Fatal("Could not create game", err)
 	}

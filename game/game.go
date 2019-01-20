@@ -67,6 +67,17 @@ func gameLoop(g *Game, screen *ebiten.Image) error {
 func victoryScreen(g *Game, screen *ebiten.Image) error {
 	screen.Fill(colornames.Black)
 	draw.CenterText(screen, "Victory!", draw.FontFace11, colornames.White)
-	draw.CenterText(screen, "Press R to restart game", draw.FontFace5, colornames.White, 40)
+	draw.CenterText(screen, "Press R/touch screen", draw.FontFace5, colornames.White, 40)
+	draw.CenterText(screen, "to restart game", draw.FontFace5, colornames.White, 60)
+
+	if mousePressed() {
+		g.Reset()
+		return nil
+	}
+
+	if ebiten.IsDrawingSkipped() {
+		return nil
+	}
+
 	return nil
 }

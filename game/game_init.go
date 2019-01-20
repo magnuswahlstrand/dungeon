@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image"
 	"image/color"
+	"io/ioutil"
 	"log"
 	"math"
 	"math/rand"
@@ -127,7 +128,8 @@ func New(options ...Option) (*Game, error) {
 	g.initMap()
 
 	// Add slash
-	slashFile = ase.Load("assets/animation/slash.json")
+	b, _ := ioutil.ReadAll(assets.FileReaderFatal("assets/animation/slash.json"))
+	slashFile = ase.LoadBytes(b)
 	slashFile.Play("Slash")
 	img, err := gfx.DecodePNG(assets.FileReaderFatal(slashFile.ImagePath))
 	if err != nil {
@@ -151,7 +153,9 @@ func (g *Game) newPlayer() {
 	g.entities.Add(playerID, components.Velocity{Vec: gfx.V(0, 0)})
 	g.entities.Add(playerID, components.Directed{D: direction.Right})
 
-	playerFile := ase.Load("assets/animation/hero.json")
+	b, _ := ioutil.ReadAll(assets.FileReaderFatal("assets/animation/hero.json"))
+	playerFile := ase.LoadBytes(b)
+	fmt.Println("playerFile", playerFile)
 	playerFile.Play("Stand")
 	img, err := gfx.DecodePNG(assets.FileReaderFatal(playerFile.ImagePath))
 	if err != nil {
