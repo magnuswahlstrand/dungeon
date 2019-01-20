@@ -143,7 +143,7 @@ func (g *Game) newPlayer() {
 	g.entities.Add(playerID, components.Directed{D: direction.Left})
 
 	playerFile := ase.Load("assets/animation/hero.json")
-	playerFile.Play("Slash")
+	playerFile.Play("Stand")
 	img, err := gfx.DecodePNG(assets.FileReaderFatal(playerFile.ImagePath))
 	if err != nil {
 		log.Fatal(err)
@@ -176,7 +176,15 @@ func (g *Game) parseObject(o *tiled.Object) {
 		}
 
 		rs = append(rs, r)
-		g.staticSpace.AddShape(resolvutil.ScaledRect(r, collisionScaling))
+		rr := resolvutil.ScaledRect(r, collisionScaling)
+		if !o.Properties.GetBool("not hookable") {
+			rr.SetTags("hookable")
+		}
+		if o.Properties.GetBool("hazard") {
+			rr.SetTags("hazard")
+		}
+
+		g.staticSpace.AddShape(rr)
 
 		b := components.NewHitbox(r)
 		g.entities.Add(ID, b)

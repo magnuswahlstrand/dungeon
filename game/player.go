@@ -19,3 +19,7 @@ func (g *Game) Directed(e string) *components.Directed {
 func (g *Game) Drawable(e string) *components.Drawable {
 	return g.entities.GetUnsafe(e, components.DrawableType).(*components.Drawable)
 }
+
+func (g *Game) Animated(e string) *components.Animated {
+	return g.entities.GetUnsafe(e, components.AnimatedType).(*components.Animated)
+}

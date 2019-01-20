@@ -2,6 +2,9 @@
 
 ## Roadmap
 
+- [ ] Deaths
+- [ ] Deaths
+
 - [x] Fix Aesprite bug
 - [x] Turn player
 - [x] Turn slash with player

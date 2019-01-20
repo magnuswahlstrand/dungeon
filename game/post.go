@@ -23,16 +23,26 @@ func (g *Game) postStep() {
 
 	// Animated
 	for _, e := range g.filteredEntities(components.AnimatedType) {
-		fmt.Println("Updating", e)
 		a := g.entities.GetUnsafe(e, components.AnimatedType).(*components.Animated)
-		if e == playerID && a.Ase.IsPlaying("Slash") {
-			if a.Ase.FinishedAnimation() {
-				fmt.Println("Finished")
-				a.Ase.Play("Stand")
-			}
-		}
+
 		// Update animation time
 		a.Ase.Update(float32(diffTime.Nanoseconds()) / 1000000000)
+
+		// Player animation
+		if e == playerID {
+
+			switch a.Ase.CurrentAnimation.Name {
+			case "Slash":
+				if a.Ase.FinishedAnimation() {
+					a.Ase.Play("Stand")
+				}
+			case "Death":
+				if a.Ase.FinishedAnimation() {
+					a.Ase.Play("Dead")
+					fmt.Println("set to dead")
+				}
+			}
+		}
 	}
 
 	// Check timers

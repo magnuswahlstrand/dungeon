@@ -133,7 +133,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
+    "duration": 50
    },
    "hero 17.ase": {
     "frame": { "x": 544, "y": 0, "w": 32, "h": 32 },
@@ -141,7 +141,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 200
+    "duration": 100
    },
    "hero 18.ase": {
     "frame": { "x": 576, "y": 0, "w": 32, "h": 32 },
@@ -149,7 +149,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 200
+    "duration": 100
    },
    "hero 19.ase": {
     "frame": { "x": 608, "y": 0, "w": 32, "h": 32 },
@@ -165,7 +165,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
+    "duration": 10
    },
    "hero 21.ase": {
     "frame": { "x": 672, "y": 0, "w": 32, "h": 32 },
@@ -190,6 +190,14 @@
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 100
+   },
+   "hero 24.ase": {
+    "frame": { "x": 768, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
    }
  },
  "meta": {
@@ -197,7 +205,7 @@
   "version": "1.2.9",
   "image": "/Users/test/go/src/github.com/kyeett/dungeon/assets/animation/hero_animated.png",
   "format": "RGBA8888",
-  "size": { "w": 768, "h": 32 },
+  "size": { "w": 800, "h": 32 },
   "scale": "1",
   "frameTags": [
    { "name": "Stand", "from": 0, "to": 0, "direction": "forward" },
@@ -207,7 +215,8 @@
    { "name": "Land", "from": 11, "to": 12, "direction": "forward" },
    { "name": "Hit", "from": 13, "to": 15, "direction": "forward" },
    { "name": "Slash", "from": 16, "to": 19, "direction": "forward" },
-   { "name": "Death", "from": 20, "to": 23, "direction": "forward" }
+   { "name": "Death", "from": 20, "to": 23, "direction": "forward" },
+   { "name": "Dead", "from": 24, "to": 24, "direction": "forward" }
   ],
   "slices": [
   ]

@@ -14,8 +14,23 @@ import (
 	"github.com/peterhellberg/gfx"
 )
 
-func (g *Game) preStep() {
+func (g *Game) playerDead() bool {
+	a := g.Animated(playerID)
+	return a.Ase.CurrentAnimation.Name == "Dead"
+}
 
+func (g *Game) playerDying() bool {
+	a := g.Animated(playerID)
+	return a.Ase.CurrentAnimation.Name == "Death"
+}
+
+func (g *Game) handleControls() {
+	if g.playerDead() {
+		fmt.Println("Dead!! don't move")
+		return
+	}
+
+	v := g.V(playerID)
 	if inpututil.IsKeyJustPressed(ebiten.KeyF) {
 		// Slash
 		slashID := g.UUID()
@@ -32,20 +47,11 @@ func (g *Game) preStep() {
 
 	}
 
-	v := g.V(playerID)
-
 	if ebiten.IsKeyPressed(ebiten.KeyW) {
 		if v.Y == 0 {
 			v.Y = -jumpSpeed
 		}
 	}
-
-	// Gravity
-	v.Y += gravity
-
-	// Friction
-	v.X = 0.93 * v.X
-	v.Y = 0.96 * v.Y
 
 	d := g.entities.GetUnsafe(playerID, components.DirectedType).(*components.Directed)
 	if ebiten.IsKeyPressed(ebiten.KeyD) {
@@ -54,6 +60,7 @@ func (g *Game) preStep() {
 			v.X = 2
 		}
 		d.D = direction.Right
+		fmt.Println("Turn!")
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyA) {
@@ -62,7 +69,31 @@ func (g *Game) preStep() {
 			v.X = -2
 		}
 		d.D = direction.Left
+		fmt.Println("Turn!")
 	}
+
+	if mousePressed() {
+		switch rubberband {
+		case true:
+			rubberband = false
+		case false:
+			c := mousePosition()
+			rubberband = g.updateHook(c)
+		}
+	}
+}
+
+func (g *Game) preStep() {
+	v := g.V(playerID)
+
+	// Gravity
+	v.Y += gravity
+
+	// Friction
+	v.X = 0.93 * v.X
+	v.Y = 0.96 * v.Y
+
+	g.handleControls()
 
 	// Apply rubber effect
 	if rubberband {
@@ -90,15 +121,6 @@ func (g *Game) preStep() {
 		v.Vec = v.Unit().Scaled(max)
 	}
 
-	if mousePressed() {
-		switch rubberband {
-		case true:
-			rubberband = false
-		case false:
-			c := mousePosition()
-			rubberband = g.updateHook(c)
-		}
-	}
 }
 
 func limit(v float64, mx float64) float64 {
@@ -141,7 +163,7 @@ func (g *Game) updateHook(c gfx.Vec) bool {
 	pos := g.Pos(hookID)
 	target := c.Sub(pos.Vec).Unit().Scaled(200).Add(pos.Vec)
 	l := resolvutil.ScaledLine(pos.Vec, target, collisionScaling)
-	pts := l.IntersectionPoints(&g.staticSpace)
+	pts := l.IntersectionPoints((&g.staticSpace).FilterByTags("hookable"))
 	if len(pts) == 0 {
 		// no points found
 		fmt.Println("missed")

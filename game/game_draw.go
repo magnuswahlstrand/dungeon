@@ -29,7 +29,7 @@ func (g *Game) draw(screen *ebiten.Image) {
 		pos := g.Pos(hookID)
 		g.drawArm(screen, pos.Vec, hook)
 
-	} else {
+	} else if !g.playerDead() && !g.playerDying() {
 		cursor := mousePosition()
 		pos := g.Pos(hookID)
 		aim := cursor.Sub(pos.Vec).Unit().Scaled(10).Add(pos.Vec)
