@@ -4,15 +4,16 @@
 
 ### 0.5
 
+- [ ] Build with GopherJS
+- [x] Rectangle camera
+- [x] Win condition/screen
 - [x] Text goal
-- [ ] Win condition/screen
 - [x] Restart button
 - [x] Restart on death
 - [x] Deaths
 - [x] Fix Aesprite bug
 - [x] Turn player
 - [x] Turn slash with player
-- [x] Build with GopherJS
 - [x] Touch controls
 - [x] Collision
 - [x] Use components

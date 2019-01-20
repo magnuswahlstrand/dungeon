@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/kyeett/gomponents/direction"
+	"golang.org/x/image/colornames"
 
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
@@ -109,6 +110,11 @@ func New(options ...Option) (*Game, error) {
 
 	bgImg, _ := ebiten.NewImage(m.Width*m.TileWidth, m.Height*m.TileHeight, ebiten.FilterDefault)
 	g := Game{
+		currentScene: "game",
+		scenes: map[string]func(*Game, *ebiten.Image) error{
+			"game":    gameLoop,
+			"victory": victoryScreen,
+		},
 		baseDir:       dir,
 		spriteImg:     spriteImg,
 		m:             m,
@@ -128,7 +134,7 @@ func New(options ...Option) (*Game, error) {
 		log.Fatal(err)
 	}
 	slashImg, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
-
+	camera, _ = ebiten.NewImageFromImage(gfx.NewImage(g.Width()*tileset.TileWidth, g.Height()*tileset.TileHeight, colornames.Red), ebiten.FilterDefault)
 	currentTime = time.Now()
 	return &g, nil
 }
@@ -181,16 +187,19 @@ func (g *Game) parseObject(o *tiled.Object) {
 				g.pts = append(g.pts, gfx.V(x, y))
 			}
 		}
-
 		rs = append(rs, r)
+
+		var tags []string
 		rr := resolvutil.ScaledRect(r, collisionScaling)
+
 		if !o.Properties.GetBool("not hookable") {
-			rr.SetTags("hookable")
+			tags = append(tags, "hookable")
 		}
 		if o.Properties.GetBool("hazard") {
-			rr.SetTags("hazard")
+			tags = append(tags, "hazard")
 		}
 
+		rr.SetTags(tags...)
 		g.staticSpace.AddShape(rr)
 
 		b := components.NewHitbox(r)
@@ -214,6 +223,7 @@ func (g *Game) newTrigger(o *tiled.Object) {
 	trigger := components.Trigger{
 		Rect:      gfx.R(float64(o.X), float64(o.Y), float64(o.X+o.Width), float64(o.Y+o.Height)),
 		Direction: direction.All,
+		Scenario:  o.Properties.GetString("scenario"),
 	}
 
 	g.entities.Add(id, trigger)

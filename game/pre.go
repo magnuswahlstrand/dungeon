@@ -76,10 +76,17 @@ func (g *Game) handleControls() {
 		case true:
 			rubberband = false
 		case false:
-			c := mousePosition()
+			c := g.mousePositionCameraAdjusted()
+			// Todo, clean this up
 			rubberband = g.updateHook(c)
 		}
 	}
+}
+
+func (g *Game) mousePositionCameraAdjusted() gfx.Vec {
+	cr := g.getCameraPosition()
+	c := mousePosition()
+	return c.Add(gfx.V(float64(cr.Min.X), float64(cr.Min.Y)))
 }
 
 func (g *Game) preStep() {

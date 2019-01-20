@@ -1,8 +1,12 @@
 package game
 
 import (
+	"fmt"
+
+	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/kyeett/gomponents/components"
+	"github.com/peterhellberg/gfx"
 )
 
 func (g *Game) filteredEntities(types ...components.Type) []string {
@@ -25,23 +29,37 @@ func (g *Game) Height() int {
 
 var tmpImg *ebiten.Image
 var playerImg *ebiten.Image
-
-// func init() {
-// 	tmpImg, _ = ebiten.NewImage(12*16, 12*16, ebiten.FilterDefault)
-
-// 	path := "assets/animation/hero_animated.png"
-// 	img, err := gfx.DecodePNG(assets.FileReaderFatal(path))
-// 	// img, err := gfx.OpenPNG(path)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	playerImg, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
-// }
+var camera *ebiten.Image
 
 func (g *Game) Reset() {
+	g.currentScene = "game"
 	rubberband = false
 	g.removeEntity(playerID)
 	g.newPlayer()
 	g.initMap()
+}
+
+func (g *Game) checkTriggers() {
+	pos := g.entities.GetUnsafe(playerID, components.PosType).(*components.Pos)
+	hb := g.entities.GetUnsafe(playerID, components.HitboxType).(*components.Hitbox)
+
+	playerShape := rectToShape(hb.Moved(pos.Vec))
+
+	for _, e := range g.filteredEntities(components.TriggerType) {
+		t := g.entities.GetUnsafe(e, components.TriggerType).(*components.Trigger)
+
+		tRect := rectToShape(t.Rect)
+		if playerShape.WouldBeColliding(tRect, 0, 0) {
+			fmt.Println("triggered!", t.Scenario)
+
+			switch {
+			case t.Scenario == "victory":
+				g.currentScene = "victory"
+			}
+		}
+	}
+}
+
+func rectToShape(hb gfx.Rect) *resolv.Rectangle {
+	return resolv.NewRectangle(int32(hb.Min.X), int32(hb.Min.Y), int32(hb.W()), int32(hb.H()))
 }

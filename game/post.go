@@ -62,7 +62,6 @@ func (g *Game) postStep() {
 	// Perform entity scenarios
 	for _, e := range g.filteredEntities(components.ScenarioType) {
 		scenario := g.entities.GetUnsafe(e, components.ScenarioType).(*components.Scenario)
-		fmt.Println("in here")
 		finished := scenario.F()
 
 		if finished == true {

@@ -30,7 +30,8 @@ func (g *Game) draw(screen *ebiten.Image) {
 		g.drawArm(screen, pos.Vec, hook)
 
 	} else if !g.playerDead() && !g.playerDying() {
-		cursor := mousePosition()
+		// cursor := mousePosition()
+		cursor := g.mousePositionCameraAdjusted()
 		pos := g.Pos(hookID)
 		aim := cursor.Sub(pos.Vec).Unit().Scaled(10).Add(pos.Vec)
 
@@ -127,4 +128,14 @@ func (g *Game) drawEntities(screen *ebiten.Image) {
 			draw.Pt(screen, g.Pos(e).Vec, colornames.Burlywood)
 		}
 	}
+}
+
+func (g *Game) getCameraPosition() image.Rectangle {
+	var cameraWidth float64 = 12 * 16.0
+	var cameraHeight float64 = 12 * 16.0
+	pos := g.entities.GetUnsafe(playerID, components.PosType).(*components.Pos)
+	cx := pos.X - cameraWidth/2
+	cx = min(float64(g.Width()*16)-cameraWidth, cx)
+	cx = max(0, cx)
+	return image.Rect(int(cx), 0, int(cx+cameraWidth), int(cameraHeight))
 }

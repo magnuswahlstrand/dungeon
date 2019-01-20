@@ -2,9 +2,11 @@ package game
 
 import (
 	"github.com/hajimehoshi/ebiten/inpututil"
+	"golang.org/x/image/colornames"
 
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
+	"github.com/kyeett/dungeon/draw"
 	"github.com/kyeett/gomponents/components"
 	tiled "github.com/lafriks/go-tiled"
 	"github.com/peterhellberg/gfx"
@@ -14,6 +16,8 @@ type Game struct {
 	entityList    []string
 	entities      *components.Map
 	baseDir       string
+	currentScene  string
+	scenes        map[string]func(*Game, *ebiten.Image) error
 	m             *tiled.Map
 	spriteImg     *ebiten.Image
 	backgroundImg *ebiten.Image
@@ -22,7 +26,6 @@ type Game struct {
 }
 
 func (g *Game) Update(screen *ebiten.Image) error {
-
 	if inpututil.IsKeyJustPressed(ebiten.KeyTab) {
 		return gfx.ErrDone
 	}
@@ -32,6 +35,10 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		return nil
 	}
 
+	return g.scenes[g.currentScene](g, screen)
+}
+
+func gameLoop(g *Game, screen *ebiten.Image) error {
 	// Pre-step
 	g.preStep()
 
@@ -41,10 +48,25 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	// Post-step
 	g.postStep()
 
+	// Check for collision with triggers
+	g.checkTriggers()
+
 	// Draw
-	g.draw(screen)
+	camera.Clear()
+	g.draw(camera)
+
+	// Draw camera to screen
+	cr := g.getCameraPosition()
+	screen.DrawImage(camera.SubImage(cr).(*ebiten.Image), &ebiten.DrawImageOptions{})
 
 	// gfx.SavePNG("map.png", screen)
 	// return gfx.ErrDone
+	return nil
+}
+
+func victoryScreen(g *Game, screen *ebiten.Image) error {
+	screen.Fill(colornames.Black)
+	draw.CenterText(screen, "Victory!", draw.FontFace11, colornames.White)
+	draw.CenterText(screen, "Press R to restart game", draw.FontFace5, colornames.White, 40)
 	return nil
 }

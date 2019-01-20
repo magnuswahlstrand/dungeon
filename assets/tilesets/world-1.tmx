@@ -780,7 +780,7 @@
   </data>
  </layer>
  <objectgroup id="7" name="objects">
-  <object id="57" type="player" x="464" y="148" width="16" height="16"/>
+  <object id="57" type="player" x="28" y="112" width="16" height="16"/>
   <object id="73" name="Goal" type="text" x="464" y="66" width="36" height="18.8438">
    <properties>
     <property name="text" value="Goal"/>

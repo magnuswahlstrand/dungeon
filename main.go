@@ -15,7 +15,7 @@ func main() {
 	}
 
 	// start game
-	if err := ebiten.Run(g.Update, g.Width()*16, g.Height()*16, 3, "Dungeon"); err != nil {
+	if err := ebiten.Run(g.Update, 12*16, 12*16, 3, "Dungeon"); err != nil {
 		log.Fatal(err)
 	}
 }
