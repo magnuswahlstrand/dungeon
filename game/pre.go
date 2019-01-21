@@ -34,7 +34,7 @@ func (g *Game) handleControls() {
 	v := g.V(playerID)
 	if inpututil.IsKeyJustPressed(ebiten.KeyF) {
 		// Slash
-		slashID := g.UUID()
+		slashID := UUID()
 		g.entityList = append(g.entityList, slashID)
 		g.entities.Add(slashID, components.Pos{Vec: g.Pos(playerID).Vec})
 		g.entities.Add(slashID, components.Drawable{Image: slashImg})

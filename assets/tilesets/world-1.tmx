@@ -1475,7 +1475,7 @@
   <object id="94" name="Oh! Hi, cousin!" type="text" x="380" y="136" width="156" height="16">
    <text pixelsize="7" wrap="1" color="#ffffff">Oh! Hi, cousin!</text>
   </object>
-  <object id="96" type="player" x="26" y="113" width="16" height="16"/>
+  <object id="96" type="player" x="27" y="116" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="6" name="collision">
   <object id="28" x="864" y="0" width="48" height="96"/>

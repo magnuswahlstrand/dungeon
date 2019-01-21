@@ -1,7 +1,10 @@
 package game
 
 import (
+	"strings"
+
 	"github.com/hajimehoshi/ebiten/inpututil"
+	"github.com/hajimehoshi/ebiten/text"
 	"golang.org/x/image/colornames"
 
 	"github.com/SolarLune/resolv/resolv"
@@ -12,7 +15,12 @@ import (
 	"github.com/peterhellberg/gfx"
 )
 
+func Version() string {
+	return "0.6"
+}
+
 type Game struct {
+	ID            string
 	entityList    []string
 	entities      *components.Map
 	baseDir       string
@@ -60,17 +68,22 @@ func gameLoop(g *Game, screen *ebiten.Image) error {
 	screen.DrawImage(camera.SubImage(cr).(*ebiten.Image), &ebiten.DrawImageOptions{})
 
 	g.drawControl(screen)
-
 	// gfx.SavePNG("map.png", screen)
 	// return gfx.ErrDone
 	return nil
 }
 
+var highscoreText string
+
 func victoryScreen(g *Game, screen *ebiten.Image) error {
 	screen.Fill(colornames.Black)
-	draw.CenterText(screen, "Victory!", draw.FontFace11, colornames.White, -20)
-	draw.CenterText(screen, "Press R/touch screen", draw.FontFace5, colornames.White, 20)
-	draw.CenterText(screen, "to restart game", draw.FontFace5, colornames.White, 40)
+	draw.CenterText(screen, "Victory!", draw.FontFace11, colornames.White, -60)
+
+	for i, v := range strings.Split(highscoreText, "\n") {
+		text.Draw(screen, v, draw.FontFace5, 55, 70+i*10, colornames.White)
+	}
+
+	draw.CenterText(screen, "Press R/touch screen to restart", draw.FontFace5, colornames.White, 70)
 
 	if mousePressed() {
 		g.Reset()

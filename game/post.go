@@ -39,7 +39,6 @@ func (g *Game) postStep() {
 			case "Death":
 				if a.Ase.FinishedAnimation() {
 					a.Ase.Play("Dead")
-					fmt.Println("set to dead")
 				}
 			}
 		}
@@ -85,3 +84,4 @@ func (g *Game) removeEntity(e string) {
 }
 
 var currentTime time.Time
+var startTime time.Time

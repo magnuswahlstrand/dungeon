@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/kyeett/dungeon/audio"
+	"github.com/kyeett/dungeon/highscore"
 
 	"github.com/kyeett/gomponents/direction"
 	"golang.org/x/image/colornames"
@@ -69,6 +70,7 @@ func (g *Game) initMap() {
 		}
 	}
 
+	startTime = time.Now()
 }
 
 func TilesheetCoords(t *tiled.Tileset, ID uint32) (int, int) {
@@ -124,6 +126,7 @@ func New(options ...Option) (*Game, error) {
 
 	bgImg, _ := ebiten.NewImage(m.Width*m.TileWidth, m.Height*m.TileHeight, ebiten.FilterDefault)
 	g := Game{
+		ID:           UUID(),
 		currentScene: "game",
 		scenes: map[string]func(*Game, *ebiten.Image) error{
 			"game":    gameLoop,
@@ -151,6 +154,7 @@ func New(options ...Option) (*Game, error) {
 	slashImg, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
 	camera, _ = ebiten.NewImageFromImage(gfx.NewImage(g.Width()*tileset.TileWidth, g.Height()*tileset.TileHeight, colornames.Red), ebiten.FilterDefault)
 	currentTime = time.Now()
+	highscore.NewUser(g.ID, clientType, Version())
 	return &g, nil
 }
 
@@ -168,7 +172,6 @@ func (g *Game) newPlayer() {
 
 	b, _ := ioutil.ReadAll(assets.FileReaderFatal("assets/animation/hero.json"))
 	playerFile := ase.LoadBytes(b)
-	fmt.Println("playerFile", playerFile)
 	playerFile.Play("Stand")
 	img, err := gfx.DecodePNG(assets.FileReaderFatal(playerFile.ImagePath))
 	if err != nil {
@@ -185,10 +188,11 @@ func (g *Game) newPlayer() {
 
 	// Play spawn
 	audio.Play(audio.SpawnSound)
+
 }
 
 func (g *Game) parseObject(o *tiled.Object) {
-	ID := g.UUID()
+	ID := UUID()
 	switch o.Type {
 	case "player":
 		pos := g.Pos(playerID)
@@ -228,7 +232,7 @@ func (g *Game) parseObject(o *tiled.Object) {
 	}
 }
 
-func (g *Game) UUID() string {
+func UUID() string {
 	return fmt.Sprintf("%d", rand.Intn(10000))
 }
 

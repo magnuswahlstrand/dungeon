@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+	"math/rand"
+	"time"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/kyeett/dungeon/game"
@@ -9,6 +11,8 @@ import (
 
 func main() {
 	// create game
+	rand.Seed(time.Now().UnixNano())
+
 	g, err := game.New()
 	if err != nil {
 		log.Fatal("Could not create game", err)

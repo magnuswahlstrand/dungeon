@@ -63,7 +63,7 @@ func (g *Game) handleDeath(ID string) {
 	// Add timer until reset
 	fmt.Println("add timer")
 	end := time.Now().Add(1 * time.Second)
-	scenarioID := g.UUID()
+	scenarioID := UUID()
 	g.entities.Add(scenarioID, components.Scenario{
 		F: func() bool {
 			if time.Now().After(end) {
