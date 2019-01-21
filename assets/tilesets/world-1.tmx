@@ -1322,10 +1322,10 @@
    <tile gid="29"/>
    <tile/>
    <tile/>
-   <tile gid="29"/>
-   <tile gid="29"/>
    <tile/>
    <tile/>
+   <tile gid="29"/>
+   <tile gid="29"/>
    <tile/>
    <tile/>
    <tile gid="18"/>
@@ -1531,13 +1531,13 @@
     <property name="not hookable" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="92" x="852" y="156" width="23" height="4">
+  <object id="92" x="884" y="156" width="23" height="4">
    <properties>
     <property name="hazard" type="bool" value="true"/>
     <property name="not hookable" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="95" x="850" y="158" width="27" height="2">
+  <object id="95" x="882" y="158" width="27" height="2">
    <properties>
     <property name="hazard" type="bool" value="true"/>
     <property name="not hookable" type="bool" value="true"/>

@@ -76,6 +76,11 @@ func rectToShape(hb gfx.Rect) *resolv.Rectangle {
 	return resolv.NewRectangle(int32(hb.Min.X), int32(hb.Min.Y), int32(hb.W()), int32(hb.H()))
 }
 
+// func (g *Game) handleHighscore2() {
+// 	t := time.Since(startTime)
+// 	highscoreText = fmt.Sprintf("    Your time was %0.2fs\n\n", t.Seconds())
+// }
+
 func (g *Game) handleHighscore() {
 	t := time.Since(startTime)
 

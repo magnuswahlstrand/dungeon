@@ -48,11 +48,11 @@ func (g *Game) handleControls() {
 
 	}
 
-	if ebiten.IsKeyPressed(ebiten.KeyW) {
-		if v.Y == 0 {
-			v.Y = -jumpSpeed
-		}
-	}
+	// if ebiten.IsKeyPressed(ebiten.KeyW) {
+	// 	if v.Y == 0 {
+	// 		v.Y = -jumpSpeed
+	// 	}
+	// }
 
 	d := g.entities.GetUnsafe(playerID, components.DirectedType).(*components.Directed)
 	if ebiten.IsKeyPressed(ebiten.KeyD) || rightPadPressed() {
@@ -72,9 +72,10 @@ func (g *Game) handleControls() {
 		}
 
 		switch rubberband {
-		case true:
-			rubberband = false
-		case false:
+		// case true:
+		// 	rubberband = false
+		// case false:
+		default:
 			c := g.mousePositionCameraAdjusted()
 			// Todo, clean this up
 			rubberband = g.updateHook(c)

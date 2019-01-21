@@ -19,7 +19,7 @@
 - [x] Use components
 - [x] Animations
 
-### 0.x
+### 0.6
 
 - [x] Correct size on phone
 - [x] Instructions on first screen
@@ -30,8 +30,13 @@
   - [x] spawn
 - [x] Button to restart on phone
 
+### 0.7
+
+- [x] Highscore system
+
 ### 1.x
 
+- [ ] Fix hook while dying bug
 - [ ] Music
 - [ ] checkpoints
 - [ ] longer map
