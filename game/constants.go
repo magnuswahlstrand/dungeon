@@ -17,3 +17,6 @@ const collisionScaling = 100
 const jumpSpeed = 7.0
 
 const accX = 0.2
+
+const frictionX = 0.96
+const frictionY = 0.98

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/kyeett/dungeon/audio"
 	"github.com/kyeett/dungeon/resolvutil"
 
 	"github.com/kyeett/gomponents/components"
@@ -57,6 +58,7 @@ func (g *Game) handleDeath(ID string) {
 	a := g.Animated(playerID)
 	a.Ase.Play("Death")
 	rubberband = false
+	audio.Play(audio.DeathSound)
 
 	// Add timer until reset
 	fmt.Println("add timer")

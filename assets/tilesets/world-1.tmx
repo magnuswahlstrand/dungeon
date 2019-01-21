@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="60" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="25" nextobjectid="94">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="60" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="25" nextobjectid="98">
  <tileset firstgid="1" name="dungeon2" tilewidth="16" tileheight="16" tilecount="208" columns="16">
   <image source="tiles.png" width="256" height="208"/>
  </tileset>
@@ -1472,7 +1472,10 @@
   <object id="77" name="Welcome to the lava room" type="text" x="276" y="36" width="156" height="16">
    <text pixelsize="7" wrap="1" color="#ffffff">Welcome to the lava room</text>
   </object>
-  <object id="93" type="player" x="28" y="116" width="16" height="16"/>
+  <object id="94" name="Oh! Hi, cousin!" type="text" x="380" y="136" width="156" height="16">
+   <text pixelsize="7" wrap="1" color="#ffffff">Oh! Hi, cousin!</text>
+  </object>
+  <object id="96" type="player" x="26" y="113" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="6" name="collision">
   <object id="28" x="864" y="0" width="48" height="96"/>
@@ -1528,11 +1531,18 @@
     <property name="not hookable" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="92" x="848" y="156" width="28" height="4">
+  <object id="92" x="852" y="156" width="23" height="4">
    <properties>
     <property name="hazard" type="bool" value="true"/>
     <property name="not hookable" type="bool" value="true"/>
    </properties>
   </object>
+  <object id="95" x="850" y="158" width="27" height="2">
+   <properties>
+    <property name="hazard" type="bool" value="true"/>
+    <property name="not hookable" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="97" x="386" y="161" width="13" height="15"/>
  </objectgroup>
 </map>

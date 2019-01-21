@@ -15,7 +15,8 @@ func main() {
 	}
 
 	// start game
-	if err := ebiten.Run(g.Update, 12*16, 12*16, 3, "Dungeon"); err != nil {
+	ebiten.SetFullscreen(true)
+	if err := ebiten.Run(g.Update, 16*16, 12*16, 3, "Dungeon"); err != nil {
 		log.Fatal(err)
 	}
 }

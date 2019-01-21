@@ -21,18 +21,18 @@
 
 ### 0.x
 
-- [ ] Correct size on phone
+- [x] Correct size on phone
 - [x] Instructions on first screen
-- [ ] Sound on
-  - [ ] hook
-  - [ ] death
-  - [ ] victory
-  - [ ] spawn
-- [ ] Music
-- [ ] Button to restart on phone
+- [x] Sound on
+  - [x] hook
+  - [x] death
+  - [x] victory
+  - [x] spawn
+- [x] Button to restart on phone
 
 ### 1.x
 
+- [ ] Music
 - [ ] checkpoints
 - [ ] longer map
 - [ ] slashing animation on mobile

@@ -26,7 +26,7 @@ type Game struct {
 }
 
 func (g *Game) Update(screen *ebiten.Image) error {
-	if inpututil.IsKeyJustPressed(ebiten.KeyTab) {
+	if !javascriptBuild && inpututil.IsKeyJustPressed(ebiten.KeyTab) {
 		return gfx.ErrDone
 	}
 
@@ -59,6 +59,8 @@ func gameLoop(g *Game, screen *ebiten.Image) error {
 	cr := g.getCameraPosition()
 	screen.DrawImage(camera.SubImage(cr).(*ebiten.Image), &ebiten.DrawImageOptions{})
 
+	g.drawControl(screen)
+
 	// gfx.SavePNG("map.png", screen)
 	// return gfx.ErrDone
 	return nil
@@ -66,9 +68,9 @@ func gameLoop(g *Game, screen *ebiten.Image) error {
 
 func victoryScreen(g *Game, screen *ebiten.Image) error {
 	screen.Fill(colornames.Black)
-	draw.CenterText(screen, "Victory!", draw.FontFace11, colornames.White)
-	draw.CenterText(screen, "Press R/touch screen", draw.FontFace5, colornames.White, 40)
-	draw.CenterText(screen, "to restart game", draw.FontFace5, colornames.White, 60)
+	draw.CenterText(screen, "Victory!", draw.FontFace11, colornames.White, -20)
+	draw.CenterText(screen, "Press R/touch screen", draw.FontFace5, colornames.White, 20)
+	draw.CenterText(screen, "to restart game", draw.FontFace5, colornames.White, 40)
 
 	if mousePressed() {
 		g.Reset()

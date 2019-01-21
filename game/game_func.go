@@ -5,6 +5,7 @@ import (
 
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
+	"github.com/kyeett/dungeon/audio"
 	"github.com/kyeett/gomponents/components"
 	"github.com/peterhellberg/gfx"
 )
@@ -55,6 +56,7 @@ func (g *Game) checkTriggers() {
 			switch {
 			case t.Scenario == "victory":
 				g.currentScene = "victory"
+				audio.Play(audio.VictorySound)
 			}
 		}
 	}

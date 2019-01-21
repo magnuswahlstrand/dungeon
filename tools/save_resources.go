@@ -19,6 +19,10 @@ func main() {
 			name: "Hero_animated_png",
 		},
 		resource{
+			path: "assets/animation/button_right.png",
+			name: "Button_right_png",
+		},
+		resource{
 			path: "assets/animation/hero.json",
 			name: "Hero_json",
 		},
@@ -42,6 +46,26 @@ func main() {
 			path: "assets/tilesets/world-1.tmx",
 			name: "World_1_tmx",
 		},
+		resource{
+			path: "assets/audio/jump_11.wav",
+			name: "Jump_11_mp3",
+		},
+		resource{
+			path: "assets/audio/hit.mp3",
+			name: "Hit_mp3",
+		},
+		resource{
+			path: "assets/audio/missed.mp3",
+			name: "Missed_mp3",
+		},
+		resource{
+			path: "assets/audio/spawn.mp3",
+			name: "Spawn_mp3",
+		},
+		resource{
+			path: "assets/audio/victory.mp3",
+			name: "Victory_mp3",
+		},
 	}
 
 	f, err := os.Create("assets/assets.go")
@@ -56,8 +80,8 @@ func main() {
 	fmt.Fprintln(f, "import \"log\"")
 	fmt.Fprintln(f, "import \"io\"")
 	fmt.Fprintln(f, "import \"os\"")
+	fmt.Fprintln(f, "import \"io/ioutil\"")
 	fmt.Fprintln(f, "import \"bytes\"")
-	fmt.Fprintln(f, "import \"fmt\"")
 	fmt.Fprintln(f, "import \"github.com/pkg/errors\"")
 
 	for _, r := range resources {
@@ -81,7 +105,14 @@ func main() {
 	fmt.Fprint(f, `
 // Throws a log fatal if path doesn't exist
 func LookupFatal(path string) []byte {
-	fmt.Println("Read from disk", path, "'")
+	if ReadFromDisk {
+		b, err := ioutil.ReadFile(path)
+		if err != nil {
+			log.Fatalf("no such resource %s", path)
+		}
+		return b
+	}
+
 	if _, ok := Lookup[path]; !ok {
 		log.Fatalf("no such resource %s", path)
 	}

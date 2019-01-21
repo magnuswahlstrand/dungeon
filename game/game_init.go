@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/kyeett/dungeon/audio"
+
 	"github.com/kyeett/gomponents/direction"
 	"golang.org/x/image/colornames"
 
@@ -87,6 +89,17 @@ func New(options ...Option) (*Game, error) {
 			assets.ReadFromDisk = true
 		}
 	}
+
+	// Handle JS builds
+	if javascriptBuild {
+		fmt.Println("In browser, load embedded resources")
+	} else {
+		fmt.Println("On desktop, load resources from disk")
+		assets.ReadFromDisk = true
+	}
+
+	initMobileControls()
+	audio.LoadResources()
 
 	filename := "assets/tilesets/world-1.tmx"
 	dir := filepath.Dir(filename)
@@ -169,6 +182,9 @@ func (g *Game) newPlayer() {
 	g.entityList = append(g.entityList, hookID)
 	g.entities.Add(hookID, components.Pos{Vec: gfx.V(0, 0)})
 	g.entities.Add(hookID, components.Following{ID: playerID, Offset: gfx.V(16, 16)})
+
+	// Play spawn
+	audio.Play(audio.SpawnSound)
 }
 
 func (g *Game) parseObject(o *tiled.Object) {

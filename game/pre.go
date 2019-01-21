@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/kyeett/dungeon/audio"
+
 	"github.com/kyeett/gomponents/direction"
 
 	"github.com/hajimehoshi/ebiten/inpututil"
@@ -53,25 +55,22 @@ func (g *Game) handleControls() {
 	}
 
 	d := g.entities.GetUnsafe(playerID, components.DirectedType).(*components.Directed)
-	if ebiten.IsKeyPressed(ebiten.KeyD) {
+	if ebiten.IsKeyPressed(ebiten.KeyD) || rightPadPressed() {
 		v.X += accX
-		if v.X > 2 {
-			v.X = 2
-		}
 		d.D = direction.Right
-		fmt.Println("Turn!")
 	}
 
-	if ebiten.IsKeyPressed(ebiten.KeyA) {
+	if ebiten.IsKeyPressed(ebiten.KeyA) || leftPadPressed() {
 		v.X -= accX
-		if v.X < -2 {
-			v.X = -2
-		}
 		d.D = direction.Left
-		fmt.Println("Turn!")
 	}
 
-	if mousePressed() {
+	if mouseJustPressed() {
+
+		if gamePadPressed() {
+			return
+		}
+
 		switch rubberband {
 		case true:
 			rubberband = false
@@ -81,7 +80,27 @@ func (g *Game) handleControls() {
 			rubberband = g.updateHook(c)
 		}
 	}
+
 }
+
+func gamePadPressed() bool {
+	return leftPadPressed() || rightPadPressed()
+}
+
+func leftPadPressed() bool {
+	p := mousePosition()
+	return (p.X > 0 && p.X < 50) && (p.Y > 150 && p.Y < 190) && mousePressed()
+}
+func rightPadPressed() bool {
+	p := mousePosition()
+	return (p.X > 50 && p.X < 100) && (p.Y > 150 && p.Y < 190) && mousePressed()
+}
+
+// if len(inpututil.JustPressedTouchIDs()) > 0 {
+// 	ID := inpututil.JustPressedTouchIDs()[0]
+// 	x, y := ebiten.TouchPosition(ID)
+// 	return gfx.V(float64(x), float64(y))
+// }
 
 func (g *Game) mousePositionCameraAdjusted() gfx.Vec {
 	cr := g.getCameraPosition()
@@ -91,15 +110,14 @@ func (g *Game) mousePositionCameraAdjusted() gfx.Vec {
 
 func (g *Game) preStep() {
 	v := g.V(playerID)
+	g.handleControls()
 
 	// Gravity
 	v.Y += gravity
 
 	// Friction
-	v.X = 0.93 * v.X
-	v.Y = 0.96 * v.Y
-
-	g.handleControls()
+	v.X = frictionX * v.X
+	v.Y = frictionY * v.Y
 
 	// Apply rubber effect
 	if rubberband {
@@ -122,7 +140,7 @@ func (g *Game) preStep() {
 		v.Y += band2.Y
 	}
 
-	max := 5.5
+	max := 4.0
 	if v.Len() > max {
 		v.Vec = v.Unit().Scaled(max)
 	}
@@ -150,13 +168,17 @@ func max(a, b float64) float64 {
 	return b
 }
 
-func mousePressed() bool {
+func mouseJustPressed() bool {
 	return inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) || len(inpututil.JustPressedTouchIDs()) > 0
 }
 
+func mousePressed() bool {
+	return ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) || len(ebiten.TouchIDs()) > 0
+}
+
 func mousePosition() gfx.Vec {
-	if len(inpututil.JustPressedTouchIDs()) > 0 {
-		ID := inpututil.JustPressedTouchIDs()[0]
+	if len(ebiten.TouchIDs()) > 0 {
+		ID := ebiten.TouchIDs()[0]
 		x, y := ebiten.TouchPosition(ID)
 		return gfx.V(float64(x), float64(y))
 	}
@@ -173,9 +195,12 @@ func (g *Game) updateHook(c gfx.Vec) bool {
 	if len(pts) == 0 {
 		// no points found
 		fmt.Println("missed")
+		audio.Play(audio.MissedSound)
 		return false
 	}
 
 	hook = gfx.V(float64(pts[0].X)/collisionScaling, float64(pts[0].Y)/collisionScaling)
+
+	audio.Play(audio.HookSound, 0.2)
 	return true
 }
