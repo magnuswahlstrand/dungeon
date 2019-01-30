@@ -72,9 +72,8 @@ func (g *Game) handleControls() {
 		}
 
 		switch rubberband {
-		// case true:
-		// 	rubberband = false
-		// case false:
+		case true:
+			rubberband = false
 		default:
 			c := g.mousePositionCameraAdjusted()
 			// Todo, clean this up
