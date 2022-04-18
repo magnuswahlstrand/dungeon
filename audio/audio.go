@@ -9,7 +9,7 @@ import (
 	"github.com/hajimehoshi/ebiten/audio"
 	"github.com/hajimehoshi/ebiten/audio/mp3"
 	"github.com/hajimehoshi/ebiten/audio/wav"
-	"github.com/kyeett/dungeon/assets"
+	"github.com/magnuswahlstrand/dungeon/assets"
 )
 
 const (

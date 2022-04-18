@@ -11,24 +11,20 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/kyeett/dungeon/audio"
-	"github.com/kyeett/dungeon/highscore"
-
-	"github.com/kyeett/gomponents/direction"
-	"golang.org/x/image/colornames"
-
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/text"
-	"github.com/peterhellberg/gfx"
-
 	ase "github.com/kyeett/GoAseprite"
-	tiled "github.com/lafriks/go-tiled"
-
-	"github.com/kyeett/dungeon/assets"
-	"github.com/kyeett/dungeon/draw"
-	"github.com/kyeett/dungeon/resolvutil"
 	"github.com/kyeett/gomponents/components"
+	"github.com/kyeett/gomponents/direction"
+	tiled "github.com/lafriks/go-tiled"
+	"github.com/magnuswahlstrand/dungeon/assets"
+	"github.com/magnuswahlstrand/dungeon/audio"
+	"github.com/magnuswahlstrand/dungeon/draw"
+	"github.com/magnuswahlstrand/dungeon/highscore"
+	"github.com/magnuswahlstrand/dungeon/resolvutil"
+	"github.com/peterhellberg/gfx"
+	"golang.org/x/image/colornames"
 )
 
 func (g *Game) initMap() {
@@ -92,13 +88,14 @@ func New(options ...Option) (*Game, error) {
 		}
 	}
 
-	// Handle JS builds
-	if javascriptBuild {
-		fmt.Println("In browser, load embedded resources")
-	} else {
-		fmt.Println("On desktop, load resources from disk")
-		assets.ReadFromDisk = true
-	}
+	// TODO: Quick fix, always read from embedded resources
+	//if javascriptBuild {
+	//	fmt.Println("In browser, load embedded resources")
+	//} else {
+	//	fmt.Println("On desktop, load resources from disk")
+	//	assets.ReadFromDisk = true
+	//}
+	fmt.Println("Load embedded resources")
 
 	initMobileControls()
 	audio.LoadResources()
@@ -107,7 +104,7 @@ func New(options ...Option) (*Game, error) {
 	dir := filepath.Dir(filename)
 
 	// m, err := tiled.LoadFromFile(filename)
-	m, err := tiled.LoadFromReader(dir, assets.FileReaderFatal(filename))
+	m, err := tiled.LoadReader(dir, assets.FileReaderFatal(filename))
 	if err != nil {
 		return &Game{}, err
 	}
@@ -223,8 +220,8 @@ func (g *Game) parseObject(o *tiled.Object) {
 			tags = append(tags, "hazard")
 		}
 
-		rr.SetTags(tags...)
-		g.staticSpace.AddShape(rr)
+		rr.AddTags(tags...)
+		g.staticSpace.Add(rr)
 
 		b := components.NewHitbox(r)
 		g.entities.Add(ID, b)

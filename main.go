@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/kyeett/dungeon/game"
+	"github.com/magnuswahlstrand/dungeon/game"
 )
 
 func main() {

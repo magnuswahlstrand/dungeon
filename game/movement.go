@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/kyeett/dungeon/audio"
-	"github.com/kyeett/dungeon/resolvutil"
+	"github.com/magnuswahlstrand/dungeon/audio"
+	"github.com/magnuswahlstrand/dungeon/resolvutil"
 
 	"github.com/kyeett/gomponents/components"
 )

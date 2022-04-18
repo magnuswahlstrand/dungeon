@@ -8,10 +8,10 @@ import (
 	"github.com/kyeett/gomponents/direction"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/kyeett/dungeon/assets"
-	"github.com/kyeett/dungeon/draw"
-	"github.com/kyeett/dungeon/resolvutil"
 	"github.com/kyeett/gomponents/components"
+	"github.com/magnuswahlstrand/dungeon/assets"
+	"github.com/magnuswahlstrand/dungeon/draw"
+	"github.com/magnuswahlstrand/dungeon/resolvutil"
 	"github.com/peterhellberg/gfx"
 	"golang.org/x/image/colornames"
 )

@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/kyeett/dungeon/audio"
+	"github.com/magnuswahlstrand/dungeon/audio"
 
 	"github.com/kyeett/gomponents/direction"
 
 	"github.com/hajimehoshi/ebiten/inpututil"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/kyeett/dungeon/resolvutil"
 	"github.com/kyeett/gomponents/components"
+	"github.com/magnuswahlstrand/dungeon/resolvutil"
 	"github.com/peterhellberg/gfx"
 )
 
@@ -191,7 +191,7 @@ func (g *Game) updateHook(c gfx.Vec) bool {
 	pos := g.Pos(hookID)
 	target := c.Sub(pos.Vec).Unit().Scaled(200).Add(pos.Vec)
 	l := resolvutil.ScaledLine(pos.Vec, target, collisionScaling)
-	pts := l.IntersectionPoints((&g.staticSpace).FilterByTags("hookable"))
+	pts := l.GetIntersectionPoints((&g.staticSpace).FilterByTags("hookable"))
 	if len(pts) == 0 {
 		// no points found
 		fmt.Println("missed")

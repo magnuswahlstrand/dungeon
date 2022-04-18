@@ -7,12 +7,12 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/kyeett/dungeon/highscore"
+	"github.com/magnuswahlstrand/dungeon/highscore"
 
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
-	"github.com/kyeett/dungeon/audio"
 	"github.com/kyeett/gomponents/components"
+	"github.com/magnuswahlstrand/dungeon/audio"
 	"github.com/peterhellberg/gfx"
 )
 

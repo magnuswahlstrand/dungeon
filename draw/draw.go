@@ -18,9 +18,9 @@ import (
 var DrawRect bool = true
 var Debug bool = true
 
-func ResolvPt(screen *ebiten.Image, pt resolv.IntersectionPoint, clr color.Color) {
-	Pt(screen, gfx.V(float64(pt.X), float64(pt.Y)), clr)
-}
+//func ResolvPt(screen *ebiten.Image, pt resolv.IntersectionPoint, clr color.Color) {
+//	Pt(screen, gfx.V(float64(pt.X), float64(pt.Y)), clr)
+//}
 
 func ResolvLine(screen *ebiten.Image, l *resolv.Line, clr color.Color) {
 	if Debug {

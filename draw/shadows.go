@@ -6,7 +6,7 @@ import (
 
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
-	"github.com/kyeett/dungeon/resolvutil"
+	"github.com/magnuswahlstrand/dungeon/resolvutil"
 	"github.com/peterhellberg/gfx"
 	"golang.org/x/image/colornames"
 )
@@ -34,7 +34,7 @@ func Shadow(dstImg *ebiten.Image, start gfx.Vec, pts []gfx.Vec, space resolv.Spa
 		for _, a := range []float64{-0.01, 0.0, 0.01} {
 			target := p.Sub(start).Rotated(a).Unit().Scaled(1000).Add(start)
 			l := resolvutil.Line(start, target)
-			pts := l.IntersectionPoints(&space)
+			pts := l.GetIntersectionPoints(&space)
 			if len(pts) > 0 {
 				p := gfx.V(float64(pts[0].X), float64(pts[0].Y))
 				foundPts = append(foundPts, p.Sub(start))

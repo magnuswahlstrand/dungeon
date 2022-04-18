@@ -9,9 +9,9 @@ import (
 
 	"github.com/SolarLune/resolv/resolv"
 	"github.com/hajimehoshi/ebiten"
-	"github.com/kyeett/dungeon/draw"
 	"github.com/kyeett/gomponents/components"
 	tiled "github.com/lafriks/go-tiled"
+	"github.com/magnuswahlstrand/dungeon/draw"
 	"github.com/peterhellberg/gfx"
 )
 
